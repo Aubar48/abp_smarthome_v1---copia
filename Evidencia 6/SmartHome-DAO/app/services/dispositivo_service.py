@@ -23,10 +23,11 @@ class DispositivoService:
             dispositivo.estado = nuevo_estado
             self.dispositivo_dao.actualizar(dispositivo)
 
-            # Registrar el evento
+            # Registrar el evento con el tipo correcto según el nuevo estado
+            tipo_evento = nuevo_estado  # 'encendido' o 'apagado'
             detalle = f"Estado cambiado de '{estado_anterior}' a '{nuevo_estado}'"
             evento = EventoDispositivo(
-                None, id_dispositivo, id_usuario, 'cambio_estado', None, detalle)
+                None, id_dispositivo, id_usuario, tipo_evento, None, detalle)
             self.evento_dao.crear(evento)
             return True
         return False

@@ -15,7 +15,7 @@ def panel_administrador(usuario):
         print("3. Gestionar Dispositivos")
         print("4. Ver historial de eventos")
         print("5. Salir")
-        opcion = input("Seleccione una opción: ")
+        opcion = input("Seleccione una opción: ").strip()
 
         if opcion == '1':
             gestionar_usuarios_admin()
@@ -40,7 +40,7 @@ def gestionar_usuarios_admin():
         print("3. Actualizar usuario")
         print("4. Eliminar usuario")
         print("0. Volver al panel principal")
-        opcion = input("Seleccione una opción: ")
+        opcion = input("Seleccione una opción: ").strip()
 
         if opcion == '1':
             usuarios = usuario_service.obtener_todos_los_usuarios()
@@ -98,7 +98,7 @@ def gestionar_viviendas_admin(usuario):
         print("1. Crear nueva vivienda")
         print("2. Asignar usuario a vivienda")
         print("0. Volver al panel principal")
-        opcion = input("Seleccione una opción: ")
+        opcion = input("Seleccione una opción: ").strip()
 
         if opcion == '1':
             nombre_vivienda = input("Nombre de la nueva vivienda: ")
@@ -127,7 +127,7 @@ def gestionar_dispositivos_admin():
         print("3. Actualizar dispositivo")
         print("4. Eliminar dispositivo")
         print("0. Volver al panel principal")
-        opcion = input("Seleccione una opción: ")
+        opcion = input("Seleccione una opción: ").strip()
 
         if opcion == '1':
             dispositivos = dispositivo_service.dispositivo_dao.obtener_todos()
@@ -216,13 +216,16 @@ def gestionar_dispositivos_usuario(usuario, vivienda):
 
         print("0. Volver al menú de viviendas")
         opcion = input(
-            "Seleccione un dispositivo para cambiar su estado o '0' para volver: ")
+            "Seleccione un dispositivo para cambiar su estado o '0' para volver: ").strip()
 
-        if opcion == '0':
+        # Extraer solo el primer número si el usuario escribe algo como "0. Volver"
+        opcion_num = opcion.split('.')[0].split()[0].strip()
+
+        if opcion_num == '0':
             break
 
         try:
-            idx = int(opcion) - 1
+            idx = int(opcion_num) - 1
             if 0 <= idx < len(dispositivos):
                 dispositivo_seleccionado = dispositivos[idx]
                 nuevo_estado = 'encendido' if dispositivo_seleccionado.estado == 'apagado' else 'apagado'
@@ -256,13 +259,16 @@ def panel_usuario(usuario):
 
         print("0. Salir")
         opcion = input(
-            "Seleccione una vivienda para gestionar sus dispositivos o '0' para salir: ")
+            "Seleccione una vivienda para gestionar sus dispositivos o '0' para salir: ").strip()
 
-        if opcion == '0':
+        # Extraer solo el primer número si el usuario escribe algo como "0. Salir"
+        opcion_num = opcion.split('.')[0].split()[0].strip()
+
+        if opcion_num == '0':
             break
 
         try:
-            idx = int(opcion) - 1
+            idx = int(opcion_num) - 1
             if 0 <= idx < len(viviendas):
                 vivienda_seleccionada = viviendas[idx]
                 gestionar_dispositivos_usuario(usuario, vivienda_seleccionada)
