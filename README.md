@@ -52,7 +52,7 @@ Dependiendo de la evidencia que se quiera probar, se debe navegar a la carpeta c
 ### Para Evidencia 6 (versión más reciente):
 
 1.  Asegúrate de tener Python instalado.
-2.  Abre una terminal en la carpeta `Evidencia 6/SmartHome-DAO/`.
+2.  Abre una terminal en la carpeta `SmartHome-DAO/`.
 3.  Instala las dependencias:
     ```bash
     pip install -r requirements.txt
@@ -61,10 +61,3 @@ Dependiendo de la evidencia que se quiera probar, se debe navegar a la carpeta c
     ```bash
     python main.py
     ```
-
-## Autores - Tec. en Desarrollo de Software - ISPC
-
--   [@adriel1364](https://github.com/adriel1364)
--   [@rooyar](https://github.com/rooyar)
--   [@LeandroUlloque](https://github.com/LeandroUlloque)
-

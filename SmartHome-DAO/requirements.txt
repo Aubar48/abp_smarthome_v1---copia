@@ -1,0 +1,33 @@
+# Requirements for SmartHome-DAO Project
+# Sistema de gestión de hogares inteligentes con arquitectura DAO
+
+# ======================================
+# DEPENDENCIAS PRINCIPALES
+# ======================================
+
+# MySQL Connector - Conexión a base de datos MySQL
+mysql-connector-python==8.2.0
+
+# ======================================
+# DEPENDENCIAS OPCIONALES
+# ======================================
+
+# Para testing y desarrollo
+# pytest==7.4.3
+# pytest-cov==4.1.0
+
+# Para análisis de código
+# pylint==3.0.3
+# flake8==6.1.0
+
+# ======================================
+# NOTAS
+# ======================================
+# 
+# Instalación:
+# pip install -r requirements.txt
+#
+# Instalación con dependencias opcionales:
+# pip install -r requirements.txt pytest pytest-cov
+#
+# Python Version: >=3.8

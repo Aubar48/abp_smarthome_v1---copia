@@ -64,8 +64,20 @@ cd SmartHome-DAO
 ```
 
 2. **Instalar dependencias**
+
+**Opción A: Usando requirements.txt (RECOMENDADO)**
 ```bash
-pip install mysql-connector-python
+pip install -r requirements.txt
+```
+
+**Opción B: Instalación manual**
+```bash
+pip install mysql-connector-python==8.2.0
+```
+
+**Verificar instalación:**
+```bash
+python verificar_dependencias.py
 ```
 
 3. **Configurar base de datos**
@@ -77,6 +89,16 @@ pip install mysql-connector-python
 ```bash
 python main.py
 ```
+
+### 📦 Dependencias
+
+El proyecto utiliza las siguientes dependencias (ver `requirements.txt`):
+
+| Paquete | Versión | Propósito |
+|---------|---------|-----------|
+| mysql-connector-python | 8.2.0 | Conexión y operaciones con MySQL |
+
+Para más detalles sobre la instalación, consulta: **[INSTALACION_DEPENDENCIAS.md](INSTALACION_DEPENDENCIAS.md)**
 
 ## 🧪 Pruebas Unitarias
 
