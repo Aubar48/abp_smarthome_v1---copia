@@ -123,14 +123,67 @@ def gestionar_viviendas_admin(usuario):
             print("¡Vivienda creada exitosamente!")
 
         elif opcion == '2':
-            id_usuario_asignar = int(input("ID del usuario a asignar: "))
-            id_vivienda = int(input("ID de la vivienda a asignar: "))
-            resultado = vivienda_service.asignar_usuario_a_vivienda(
-                id_usuario_asignar, id_vivienda)
-            if resultado:
-                print("¡Usuario asignado a la vivienda!")
-            else:
-                print("⚠️ El usuario ya está asignado a esta vivienda.")
+            # Mostrar lista de usuarios disponibles
+            usuario_service = UsuarioService()
+            usuarios = usuario_service.obtener_todos_los_usuarios()
+
+            print("\n--- Usuarios Disponibles ---")
+            if not usuarios:
+                print("No hay usuarios registrados en el sistema.")
+                continue
+
+            for u in usuarios:
+                print(
+                    f"ID: {u.id_usuario} | Nombre: {u.nombre} | Email: {u.email} | Rol: {u.rol}")
+            print("-" * 60)
+
+            # Mostrar lista de viviendas disponibles
+            viviendas = vivienda_service.obtener_todas_las_viviendas()
+            print("\n--- Viviendas Disponibles ---")
+            if not viviendas:
+                print("No hay viviendas registradas en el sistema.")
+                continue
+
+            for v in viviendas:
+                estado = "Activa" if v.activa else "Inactiva"
+                print(
+                    f"ID: {v.id_vivienda} | Nombre: {v.nombre_vivienda} | Dirección: {v.direccion} | Estado: {estado}")
+            print("-" * 60)
+
+            # Solicitar IDs después de mostrar las opciones
+            try:
+                id_usuario_asignar = int(
+                    input("\nIngrese el ID del usuario a asignar: "))
+                id_vivienda = int(input("Ingrese el ID de la vivienda: "))
+
+                # Verificar que existan
+                usuario_existe = any(
+                    u.id_usuario == id_usuario_asignar for u in usuarios)
+                vivienda_existe = any(
+                    v.id_vivienda == id_vivienda for v in viviendas)
+
+                if not usuario_existe:
+                    print("❌ El ID de usuario no existe. Intente nuevamente.")
+                    continue
+
+                if not vivienda_existe:
+                    print("❌ El ID de vivienda no existe. Intente nuevamente.")
+                    continue
+
+                resultado = vivienda_service.asignar_usuario_a_vivienda(
+                    id_usuario_asignar, id_vivienda)
+                if resultado:
+                    # Obtener nombres para mensaje amigable
+                    usuario_asignado = next(
+                        u for u in usuarios if u.id_usuario == id_usuario_asignar)
+                    vivienda_asignada = next(
+                        v for v in viviendas if v.id_vivienda == id_vivienda)
+                    print(
+                        f"✅ ¡Usuario '{usuario_asignado.nombre}' asignado a la vivienda '{vivienda_asignada.nombre_vivienda}'!")
+                else:
+                    print("⚠️ El usuario ya está asignado a esta vivienda.")
+            except ValueError:
+                print("❌ Por favor, ingrese IDs numéricos válidos.")
 
         elif opcion == '3':
             viviendas = vivienda_service.obtener_todas_las_viviendas()
@@ -436,10 +489,27 @@ def main():
                 print("❌ Las contraseñas no coinciden. Intente nuevamente.")
                 continue
 
-            # Registrar como usuario normal por defecto
+            # Solicitar el rol del usuario
+            print("\n--- Seleccione el tipo de cuenta ---")
+            print("1. Administrador - Gestión completa del sistema")
+            print("2. Usuario - Gestión de viviendas asignadas")
+            tipo_cuenta = input("Seleccione una opción (1-2): ").strip()
+
+            if tipo_cuenta == '1':
+                rol = "administrador"
+                print("📋 Registrando como Administrador...")
+            elif tipo_cuenta == '2':
+                rol = "usuario"
+                print("📋 Registrando como Usuario...")
+            else:
+                print("❌ Opción no válida. Se registrará como Usuario por defecto.")
+                rol = "usuario"
+
+            # Registrar usuario con el rol seleccionado
             usuario_service.registrar_usuario(
-                nombre, email, contraseña, "usuario")
-            print("✅ ¡Usuario registrado exitosamente! Ahora puede iniciar sesión.")
+                nombre, email, contraseña, rol)
+            print(
+                f"✅ ¡Usuario registrado exitosamente como {rol.upper()}! Ahora puede iniciar sesión.")
 
         elif opcion_principal == '3':
             print("¡Hasta luego!")
